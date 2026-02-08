@@ -1,0 +1,20 @@
+"""Interfaces and mock implementations for external services used by the AI Marketing Agency.
+
+This package defines base interfaces for services such as lead sourcing,
+email sending, calendar scheduling, and CRM interactions. Concrete
+implementations can subclass these interfaces to integrate with
+real providers.
+"""
+
+from .lead_source import BaseLeadSource
+from .email_service import BaseEmailService
+from .calendar_service import BaseCalendarService
+from .crm_service import BaseCRMService
+
+
+__all__ = [
+    "BaseLeadSource",
+    "BaseEmailService",
+    "BaseCalendarService",
+    "BaseCRMService",
+]
