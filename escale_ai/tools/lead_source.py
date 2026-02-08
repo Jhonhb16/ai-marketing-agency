@@ -12,8 +12,11 @@ Usage:
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Dict
+from typing imList, Dict, Optional
 
+
+import csv
+import os
 
 class BaseLeadSource(ABC):
     """Abstract base class for lead source services."""
@@ -43,6 +46,31 @@ class MockLeadSource(BaseLeadSource):
             limit: maximum number of leads to return.
 
         Returns:
+class CSVLeadSource(BaseLeadSource):
+    """
+    Lead source that reads leads from a CSV file.
+    Expects at least 'clinic_name' and 'email' columns.
+    """
+    def __init__(self, csv_path: Optional[str] = None):
+        self.csv_path = csv_path or os.getenv("LEADS_CSV_PATH", "data/leads.csv")
+
+    def fetch_leads(self, limit: int = 10) -> List[Dict[str, str]]:
+        leads: List[Dict[str, str]] = []
+        try:
+            with open(self.csv_path, newline='', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if len(leads) >= limit:
+                        break
+                    name = row.get("clinic_name") or row.get("name")
+                    contact = row.get("email") or row.get("contact")
+                    if not name or not contact:
+                        continue
+                    leads.append({"name": name, "contact": contact})
+        except FileNotFoundError:
+            pass
+        return leads
+
             List of dictionaries with 'name' and 'contact' fields.
         """
         return [
@@ -51,4 +79,4 @@ class MockLeadSource(BaseLeadSource):
         ]
 
 
-__all__ = ["BaseLeadSource", "MockLeadSource"]
+__all__ = ["BaseLeadSource", "MockLeadSource, "CSVLeadSource""]
