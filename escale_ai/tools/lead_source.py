@@ -12,40 +12,25 @@ Usage:
 """
 
 from abc import ABC, abstractmethod
-from typing imList, Dict, Optional
-
-
+from typing import List, Dict, Optional
 import csv
 import os
 
 class BaseLeadSource(ABC):
     """Abstract base class for lead source services."""
-
     @abstractmethod
     def fetch_leads(self, limit: int = 10) -> List[Dict[str, str]]:
-        """Fetch a list of lead dictionaries.
-
-        Each lead dictionary should include at least 'name' and 'contact' keys.
-
-        Args:
-            limit: maximum number of leads to return.
-
-        Returns:
-            A list of dictionaries representing potential leads.
-        """
+        """Return a list of leads. Each lead must have 'name' and 'contact'."""
         raise NotImplementedError
-
 
 class MockLeadSource(BaseLeadSource):
     """A simple mock lead source used for testing and development."""
-
     def fetch_leads(self, limit: int = 10) -> List[Dict[str, str]]:
-        """Return dummy leads for demonstration.
+        return [
+            {"name": f"Lead {i+1}", "contact": f"lead{i+1}@example.com"}
+            for i in range(limit)
+        ]
 
-        Args:
-            limit: maximum number of leads to return.
-
-        Returns:
 class CSVLeadSource(BaseLeadSource):
     """
     Lead source that reads leads from a CSV file.
@@ -57,7 +42,7 @@ class CSVLeadSource(BaseLeadSource):
     def fetch_leads(self, limit: int = 10) -> List[Dict[str, str]]:
         leads: List[Dict[str, str]] = []
         try:
-            with open(self.csv_path, newline='', encoding='utf-8') as f:
+            with open(self.csv_path, newline="", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
                     if len(leads) >= limit:
@@ -71,6 +56,7 @@ class CSVLeadSource(BaseLeadSource):
             pass
         return leads
 
+
             List of dictionaries with 'name' and 'contact' fields.
         """
         return [
@@ -79,4 +65,5 @@ class CSVLeadSource(BaseLeadSource):
         ]
 
 
-__all__ = ["BaseLeadSource", "MockLeadSource, "CSVLeadSource""]
+__all__ = ["BaseLeadSource", "MockLeadSource", "CSVLeadSource"]
+
