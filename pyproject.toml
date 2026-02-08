@@ -9,3 +9,7 @@ description = "AI Marketing Agency with autonomous agent teams"
 authors = [{ name = "AI Developer", email = "developer@example.com" }]
 readme = "README.md"
 requires-python = ">=3.9"
+
+dependencies = [
+    "pydantic>=2.12.5",
+]
