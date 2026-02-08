@@ -5,11 +5,10 @@ email sending, calendar scheduling, and CRM interactions. Concrete
 implementations can subclass these interfaces to integrate with
 real providers.
 """
-
-from .lead_source import BaseLeadSource
-from .email_service import BaseEmailService
-from .calendar_service import BaseCalendarService
-from .crm_service import BaseCRMService
+from .lead_source import BaseLeadSource, MockLeadSource
+from .email_service import BaseEmailService, MockEmailService
+from .calendar_service import BaseCalendarService, MockCalendarService
+from .crm_service import BaseCRMService, MockCRMService
 
 
 __all__ = [
@@ -17,4 +16,8 @@ __all__ = [
     "BaseEmailService",
     "BaseCalendarService",
     "BaseCRMService",
+        "MockLeadSource",
+    "MockEmailService",
+    "MockCalendarService",
+    "MockCRMService",
 ]
